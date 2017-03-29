@@ -1,0 +1,55 @@
+<h1 class="new-chat-title">Create new chat</h1>
+<form 
+    class="new-chat-form" 
+    novalidate 
+    #form="ngForm" 
+    (ngSubmit)="onSubmit(form.value, usersList); form.reset()">
+    <input 
+        type="text" 
+        autocomplete="off"
+        name="chatName" 
+        class="new-chat-form__input" 
+        placeholder="Enter chat name" 
+        minlength="6"
+        ngModel
+        required>
+    <span class="new-chat-form__hint"  
+        *ngIf="!form.controls.chatName?.valid && form.controls.chatName?.touched">Chat name must be at least 5 characters</span>
+    
+    <div class="new-chat-form-search">
+        <input 
+            type="text" 
+            autocomplete="off"
+            name="filterValue" 
+            class="new-chat-form__input  filter" 
+            placeholder="Search user by name" 
+            [(ngModel)]="searchValue" 
+            #filterInput
+            (ngModelChange)="onSearchValueChanged($event, usersList)">
+        <button type="button" 
+            class="new-chat-form-search__btn  chat-btn  chat-icon-close"
+            (click)="onSearchFieldClear(filterInput, usersList)"></button>
+        <span class="new-chat-form-search__hint" 
+            [class.visible]="isSearchFieldActive">
+            {{searchMatches == 1 ? searchMatches + ' user' : searchMatches == 0 ? 'Users not' : searchMatches + ' users'}} found</span>
+    </div>
+    
+
+    <ul class="new-chat-users" #usersList>
+        <li class="new-chat-user" 
+            *ngFor="let user of users | filterUsersByName: searchValue; let i = index"
+            #selectedEl 
+            (click)="onAddUser(selectedEl, user, i)">
+            <!--<div class="new-chat-user__photo" style="background-image: url({{user.photo}})"></div>-->
+            <!--<img [src]="user?.photo" alt="" class="new-chat-user__photo">-->
+            <img src="assets/img/avatar__1.jpg" alt="" class="new-chat-user__photo">
+            <span class="new-chat-user__info">{{user.username}}</span>
+        </li>
+    </ul>
+
+    <button 
+        type="submit" 
+        class="new-chat-form__btn"
+        [disabled]="form.invalid"
+        [ngClass]="{'disabled': !isUserChecked}">Create new chat</button>
+</form>

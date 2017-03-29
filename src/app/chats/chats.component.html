@@ -1,0 +1,15 @@
+<div class="osp-chat">
+    <div class="left-chat-wrap  hidden"
+         [ngClass]="{'hidden': !isChatPanelOpen, 'visible': isChatPanelOpen}">
+
+        <ct-chat-nav (isLeftChatOpen)="onChatPanelOpen($event)"></ct-chat-nav>
+
+        <ct-chat-list></ct-chat-list>
+    </div>
+
+
+    <div class="right-chat-wrap">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+

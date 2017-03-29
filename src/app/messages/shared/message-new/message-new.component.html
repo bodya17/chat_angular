@@ -1,0 +1,15 @@
+<form action="/" class="right-chat-form" 
+      #form="ngForm"
+      (ngSubmit)="onSumbit(form.value); form.reset()">
+    <textarea name="message" 
+              class="right-chat-form__textarea" 
+              placeholder="Type something" 
+              #textArea
+              (keypress)="onKeyPress(textArea)"
+              required
+              ngModel></textarea>
+    <button 
+        type="submit" 
+        class="right-chat-form__submit  chat-icon-send-button" 
+        [disabled]="form.invalid"></button>
+</form>
